@@ -39,9 +39,8 @@ The application captures image feed from a camera, performs object detection usi
 ### Initial Setup
 
 1. Clone the repository to your local machine:
-   ```sh
-   git clone <repository-url>
-   cd <repository-directory>
+   
+   `git clone https://github.com/timscongack/image-detection-app.git`
 
 2.	Place the YOLO model files ([yolov3.weights](https://github.com/patrick013/Object-Detection---Yolov3/blob/master/model/yolov3.weights), [yolov3.cfg](https://github.com/pjreddie/darknet/blob/master/cfg/yolov3.cfg), [coco.names](https://github.com/pjreddie/darknet/blob/master/data/)) in the project/app root directory.
 
