@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Detections</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Image Detections</h1>
+
+        <div class="controls">
+            <label for="num-images">Show</label>
+            <select id="num-images" onchange="filterImages()">
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+            <label for="date-range">Date</label>
+            <input type="date" id="date-range" onchange="filterImages()">
+        </div>
+
+        <div class="preview" id="preview" style="display: none;">
+            <img id="preview-image" src="" alt="Image Preview" />
+            <div class="caption">
+                <h2 id="preview-label"></h2>
+                <p id="preview-timestamp"></p>
+            </div>
+        </div>
+
+        <div class="image-grid" id="image-grid">
+            <% detections.forEach(detection => { %>
+                <div class="image-item" data-date="<%= detection.timestamp %>" onclick="showPreview('<%= detection.image_file_path.split('/').pop() %>', '<%= detection.object %>', '<%= detection.timestamp %>')">
+                    <img src="/image/<%= detection.image_file_path.split('/').pop() %>" alt="Image Detection" />
+                    <div class="caption">
+                        <h2><%= detection.object %></h2>
+                        <p><%= detection.timestamp %></p>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <script>
+        function filterImages() {
+            const numImages = document.getElementById('num-images').value;
+            const dateRange = document.getElementById('date-range').value;
+            const imageGrid = document.getElementById('image-grid');
+            const images = imageGrid.querySelectorAll('.image-item');
+
+            let count = 0;
+            images.forEach(image => {
+                const imageDate = image.getAttribute('data-date').split(' ')[0];
+                if ((dateRange === '' || imageDate === dateRange) && count < numImages) {
+                    image.style.display = 'block';
+                    count++;
+                } else {
+                    image.style.display = 'none';
+                }
+            });
+        }
+
+        function showPreview(filename, label, timestamp) {
+            document.getElementById('preview-image').src = '/image/' + filename;
+            document.getElementById('preview-label').innerText = label;
+            document.getElementById('preview-timestamp').innerText = timestamp;
+            document.getElementById('preview').style.display = 'block';
+        }
+
+        filterImages();
+    </script>
+</body>
+</html>
